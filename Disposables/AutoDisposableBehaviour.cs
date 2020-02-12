@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.CoreUtilities;
+using CoreUtilities;
 using UnityEngine;
 
-namespace Core.Disposables
+namespace Disposables
 {
     public abstract class AutoDisposableBehaviour : MonoBehaviour
     {

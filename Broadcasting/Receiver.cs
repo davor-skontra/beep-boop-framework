@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Broadcasting
+namespace Broadcasting
 {
     public class Receiver<TObserved> : IObserver<TObserved>
     {

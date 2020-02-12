@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 //Disposable Utility shares the namespace with AutoDisposableBehaviour because it is needed by it.
-namespace Core.CoreUtilities
+namespace CoreUtilities
 {
     public static class DisposableUtility
     {

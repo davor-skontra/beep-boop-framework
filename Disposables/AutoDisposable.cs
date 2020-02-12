@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Core.CoreUtilities;
+using CoreUtilities;
 
-namespace Core.Disposables
+namespace Disposables
 {
     public class AutoDisposable: IDisposable
     {

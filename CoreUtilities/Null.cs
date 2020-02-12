@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Core.CoreUtilities
+namespace CoreUtilities
 {
     public static class Null
     {

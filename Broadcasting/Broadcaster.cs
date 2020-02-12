@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Core.Broadcasting
+namespace Broadcasting
 {
     public interface IBroadcaster<TObserved> : IObservable<TObserved>, IObserver<TObserved>
     {
