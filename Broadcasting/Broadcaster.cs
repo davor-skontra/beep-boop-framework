@@ -40,14 +40,14 @@ namespace Broadcasting
 
             return new Unsubscriber(_observers, observer);
         }
-
+        
         public void OnCompleted()
         {
             foreach (var observer in _observers)
             {
                 observer.OnCompleted();
-                //TODO: See if what exactly is needed here
             }
+            _observers.Clear();
         }
 
         public void OnError(Exception error)
