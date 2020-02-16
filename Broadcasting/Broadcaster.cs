@@ -38,6 +38,11 @@ namespace Broadcasting
                 WhenNext = onNext
             };
 
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+            }
+
             return new Unsubscriber(_observers, observer);
         }
         
