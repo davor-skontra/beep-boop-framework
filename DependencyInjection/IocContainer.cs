@@ -30,9 +30,9 @@ namespace DependencyInjection
 
         public delegate void Injector(object target);
 
-        public BindingBuilder Register<TType>()
+        public BindingBuilder<TType> Bind<TType>()
         {
-            return new BindingBuilder(Inject, Resolve, AddBindingChecked);
+            return new BindingBuilder<TType>(Inject, Resolve, AddBindingChecked);
         }
 
         public void Inject<TType>(TType target)
