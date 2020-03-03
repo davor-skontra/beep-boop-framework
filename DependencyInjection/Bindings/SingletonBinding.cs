@@ -1,30 +1,29 @@
-using DependencyInjection.Containers;
-
 namespace DependencyInjection.Bindings
 {
-    public class SingletonBinding<TBound>: IBinding where TBound: class
+    public class SingletonBinding : IBinding
     {
-        private readonly TBound _bound;
-        
-        private TBound _resolved;
-        
-        public SingletonBinding(TBound bound)
+        private readonly object _singleton;
+        private readonly IocContainer.Injector _injector;
+
+        private object _resolved;
+
+        public SingletonBinding(object singleton, IocContainer.Injector injector)
         {
-            _bound = bound;
+            _singleton = singleton;
+            _injector = injector;
         }
 
-        public BindingKind Kind => BindingKind.Singleton;
-
-        public TResolving Resolve<TResolving>(Container container) where TResolving: TBound
+        public object Resolve()
         {
             if (_resolved != null)
             {
-                return (TResolving) _resolved;
+                return _resolved;
             }
-            container.Inject(_bound);
-            _resolved = _bound;
 
-            return (TResolving) _resolved;
+            _injector(_singleton);
+            _resolved = _singleton;
+
+            return _resolved;
         }
     }
 }

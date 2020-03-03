@@ -1,25 +1,22 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using DependencyInjection.Containers;
 
 namespace DependencyInjection.Bindings
 {
     public class FactoryBinding<TFactory>: IBinding where TFactory: Delegate
     {
         private readonly TFactory _factoryMethod;
-        private readonly Container.BlindResolver _resolver;
+        private readonly IocContainer.BlindResolver _resolver;
         private Type[] _paramTypes;
         
-        public BindingKind Kind => BindingKind.Factory;
-        
-        public FactoryBinding(TFactory factoryMethod , Container.BlindResolver resolver)
+        public FactoryBinding(TFactory factoryMethod , IocContainer.BlindResolver resolver)
         {
             _factoryMethod = factoryMethod;
             _resolver = resolver;
         }
 
-        public TResolving Resolve<TResolving>(Container container)
+        public object Resolve()
         {
             if (_paramTypes == null)
             {
@@ -32,7 +29,7 @@ namespace DependencyInjection.Bindings
 
             var resolvedParams = _paramTypes.Select(x => _resolver(x));
 
-            return (TResolving) _factoryMethod.DynamicInvoke(resolvedParams);
+            return _factoryMethod.DynamicInvoke(resolvedParams);
         }
     }
 }
