@@ -48,12 +48,12 @@ namespace DependencyInjection
             void InjectFields()
             {
                 var fields = injectedType
-                    .GetFields(BindingFlags.Instance)
+                    .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                     .Where(field => Attribute.IsDefined(field, typeof(InjectAttribute)));
 
                 foreach (var field in fields)
                 {
-                    field.SetValue(target, Resolve(field.GetType()));
+                    field.SetValue(target, Resolve(field.FieldType));
                 }
             }
 
@@ -63,13 +63,23 @@ namespace DependencyInjection
                 {
                     _injectionMethodDataMap[injectedType] = new MethodInjectionData(injectedType);
                 }
-
+                
                 var map = _injectionMethodDataMap[injectedType];
+
+                if (!map.ShouldBeUsed)
+                {
+                    return;
+                }
 
                 var parameters = map.ParamTypes.Select(Resolve).ToArray();
 
                 map.MethodBase.Invoke(target, parameters);
             }
+        }
+
+        public void ResolveNonLazyBindings()
+        {
+            
         }
 
         /// <summary>

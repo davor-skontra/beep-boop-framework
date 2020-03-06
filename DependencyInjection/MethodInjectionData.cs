@@ -7,6 +7,8 @@ namespace DependencyInjection
 {
     public class MethodInjectionData
     {
+        public readonly bool ShouldBeUsed;
+        
         private readonly MethodBase _methodBase;
 
         private Type[] _paramTypes;
@@ -23,7 +25,11 @@ namespace DependencyInjection
                 throw new TooManyInjectMethodsException(type);
             }
 
-            _methodBase = methods.First();
+            if (methods.Length == 1)
+            {
+                ShouldBeUsed = true;
+                _methodBase = methods.First();
+            }
         }
 
         public Type[] ParamTypes

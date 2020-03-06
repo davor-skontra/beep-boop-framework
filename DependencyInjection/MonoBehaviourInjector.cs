@@ -15,7 +15,7 @@ namespace DependencyInjection
             _injector = injector;
         }
 
-        public static void Inject(this MonoBehaviour self) {
+        public static void Inject<TType>(this TType self) where TType: MonoBehaviour {
             _injector.Inject(self);
         }
     }

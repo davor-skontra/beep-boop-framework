@@ -22,37 +22,37 @@ namespace DependencyInjection.Bindings
         public void ToSingleton<TType>(TType singleton)
             where TType : class, TBoundType
         {
-            _adder(typeof(TType), new SingletonBinding(singleton, _injector));
+            _adder(typeof(TBoundType), new SingletonBinding(singleton, _injector));
         }
 
         public void ToFactory<TResult>(Func<TResult> factory)
             where TResult : TBoundType
         {
-            _adder(typeof(TResult), new FactoryBinding<Func<TResult>>(factory, _resolver));
+            _adder(typeof(TBoundType), new FactoryBinding<Func<TResult>>(factory, _resolver));
         }
 
         public void ToFactory<TOne, TResult>(Func<TOne, TResult> factory)
             where TResult : TBoundType
         {
-            _adder(typeof(TResult), new FactoryBinding<Func<TOne, TResult>>(factory, _resolver));
+            _adder(typeof(TBoundType), new FactoryBinding<Func<TOne, TResult>>(factory, _resolver));
         }
 
         public void ToFactory<TOne, TTwo, TResult>(Func<TOne, TTwo, TResult> factory)
             where TResult : TBoundType
         {
-            _adder(typeof(TResult), new FactoryBinding<Func<TOne, TTwo, TResult>>(factory, _resolver));
+            _adder(typeof(TBoundType), new FactoryBinding<Func<TOne, TTwo, TResult>>(factory, _resolver));
         }
 
         public void ToFactory<TOne, TTwo, TThree, TResult>(Func<TOne, TTwo, TThree, TResult> factory)
             where TResult : TBoundType
         {
-            _adder(typeof(TResult), new FactoryBinding<Func<TOne, TTwo, TThree, TResult>>(factory, _resolver));
+            _adder(typeof(TBoundType), new FactoryBinding<Func<TOne, TTwo, TThree, TResult>>(factory, _resolver));
         }
 
         public void ToFactory<TOne, TTwo, TThree, TFour, TResult>(Func<TOne, TTwo, TThree, TFour, TResult> factory)
             where TResult : TBoundType
         {
-            _adder(typeof(TResult), new FactoryBinding<Func<TOne, TTwo, TThree, TFour, TResult>>(factory, _resolver));
+            _adder(typeof(TBoundType), new FactoryBinding<Func<TOne, TTwo, TThree, TFour, TResult>>(factory, _resolver));
         }
     }
 }
