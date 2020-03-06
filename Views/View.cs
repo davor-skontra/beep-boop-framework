@@ -11,7 +11,7 @@ namespace Views
         
         protected void Inject()
         {
-            ViewViewModelBinding.GetContainer(this).Inject(this);
+            MonoBehaviourInjector.Inject(this);
         }
     }
 }

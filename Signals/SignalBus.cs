@@ -4,18 +4,18 @@ using Broadcasting;
 
 namespace Signals
 {
-    public static class SignalBus
+    public class SignalBus
     {
-        private static readonly Dictionary<Type, Broadcaster<ISignal>> KnownSignals = new Dictionary<Type, Broadcaster<ISignal>>();
+        private readonly Dictionary<Type, Broadcaster<ISignal>> KnownSignals = new Dictionary<Type, Broadcaster<ISignal>>();
         
-        public static void Send(ISignal signal)
+        public void Send(ISignal signal)
         {
             var type = signal.GetType();
             AddSignalTypeIfNeeded(type);
             KnownSignals[type].OnNext(signal);
         }
 
-        public static IDisposable Subscribe<TSignal>(Action<TSignal> action) where TSignal: ISignal
+        public IDisposable Subscribe<TSignal>(Action<TSignal> action) where TSignal: ISignal
         {
             var type = typeof(TSignal);
             AddSignalTypeIfNeeded(type);
@@ -23,7 +23,7 @@ namespace Signals
             return KnownSignals[type].Subscribe(x => action((TSignal) x));
         }
 
-        private static void AddSignalTypeIfNeeded(Type type)
+        private void AddSignalTypeIfNeeded(Type type)
         {
             if (!KnownSignals.ContainsKey(type))
             {

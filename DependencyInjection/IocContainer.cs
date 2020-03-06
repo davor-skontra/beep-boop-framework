@@ -11,6 +11,9 @@ namespace DependencyInjection
     {
         private readonly BindingMap _bindingMaps = new BindingMap();
 
+        private readonly Dictionary<Type, MethodInjectionData> _injectionMethodDataMap =
+            new Dictionary<Type, MethodInjectionData>();
+
         public IocContainer(params BindingMap[] dependencies)
         {
             var allPairs = dependencies.SelectMany(x => x);
@@ -37,16 +40,38 @@ namespace DependencyInjection
 
         public void Inject<TType>(TType target)
         {
-            var fields = typeof(TType)
-                .GetFields(BindingFlags.Instance)
-                .Where(field => Attribute.IsDefined(field, typeof(InjectAttribute)));
+            var injectedType = typeof(TType);
 
-            foreach (var field in fields)
+            InjectFields();
+            InjectMethods();
+
+            void InjectFields()
             {
-                field.SetValue(target, Resolve(field.GetType()));
+                var fields = injectedType
+                    .GetFields(BindingFlags.Instance)
+                    .Where(field => Attribute.IsDefined(field, typeof(InjectAttribute)));
+
+                foreach (var field in fields)
+                {
+                    field.SetValue(target, Resolve(field.GetType()));
+                }
+            }
+
+            void InjectMethods()
+            {
+                if (!_injectionMethodDataMap.ContainsKey(injectedType))
+                {
+                    _injectionMethodDataMap[injectedType] = new MethodInjectionData(injectedType);
+                }
+
+                var map = _injectionMethodDataMap[injectedType];
+
+                var parameters = map.ParamTypes.Select(Resolve).ToArray();
+
+                map.MethodBase.Invoke(target, parameters);
             }
         }
-        
+
         /// <summary>
         /// Resolve a dependency of a given type.
         ///
@@ -61,6 +86,7 @@ namespace DependencyInjection
             {
                 throw new DependencyCannotBeResolvedException(type);
             }
+
             return _bindingMaps[type].Resolve();
         }
 
@@ -78,7 +104,7 @@ namespace DependencyInjection
             {
                 throw new DependencyAlreadyExistsException(type);
             }
-            
+
             _bindingMaps.Add(type, binding);
         }
     }
