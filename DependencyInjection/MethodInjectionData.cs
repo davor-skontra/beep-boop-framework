@@ -16,7 +16,7 @@ namespace DependencyInjection
         public MethodInjectionData(Type type)
         {
             var methods = type
-                .GetMethods(BindingFlags.Instance)
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(method => Attribute.IsDefined(method, typeof(InjectAttribute)))
                 .ToArray();
 

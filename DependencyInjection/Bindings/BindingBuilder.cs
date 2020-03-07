@@ -24,6 +24,12 @@ namespace DependencyInjection.Bindings
         {
             _adder(typeof(TBoundType), new SingletonBinding(singleton, _injector));
         }
+        
+        public void ToLazyResolvedSingleton<TType>(TType singleton)
+            where TType : class, TBoundType
+        {
+            _adder(typeof(TBoundType), new SingletonBinding(singleton, _injector, true));
+        }
 
         public void ToFactory<TResult>(Func<TResult> factory)
             where TResult : TBoundType

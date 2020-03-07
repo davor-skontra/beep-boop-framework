@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using DependencyInjection.Bindings;
 using DependencyInjection.Exceptions;
+using UnityEngine;
 
 namespace DependencyInjection
 {
@@ -40,7 +41,7 @@ namespace DependencyInjection
 
         public void Inject<TType>(TType target)
         {
-            var injectedType = typeof(TType);
+            var injectedType = target.GetType();
 
             InjectFields();
             InjectMethods();
@@ -77,9 +78,17 @@ namespace DependencyInjection
             }
         }
 
-        public void ResolveNonLazyBindings()
+        public void ResolveNonLazySingletonBindings()
         {
+            var singletons = _bindingMaps
+                .Values
+                .OfType<SingletonBinding>()
+                .Where(x => !x.ResolveLazy);
             
+            foreach (var singleton in singletons)
+            {
+                singleton.Resolve();
+            }
         }
 
         /// <summary>

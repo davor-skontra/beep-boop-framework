@@ -15,7 +15,7 @@ namespace DependencyInjection.Bindings
             _factoryMethod = factoryMethod;
             _resolver = resolver;
         }
-        
+
         public object Resolve()
         {
             if (_paramTypes == null)
