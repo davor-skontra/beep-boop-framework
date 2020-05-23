@@ -78,12 +78,11 @@ namespace DependencyInjection
             }
         }
 
-        public void ResolveNonLazySingletonBindings()
+        public void ResolveSingletonBindings()
         {
             var singletons = _bindingMaps
                 .Values
-                .OfType<SingletonBinding>()
-                .Where(x => !x.ResolveLazy);
+                .OfType<SingletonBinding>();
             
             foreach (var singleton in singletons)
             {

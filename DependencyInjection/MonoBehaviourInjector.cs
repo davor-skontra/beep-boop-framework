@@ -1,8 +1,6 @@
 using System;
 using System.Reflection;
 using UnityEngine;
-using ViewModels;
-using Views;
 
 namespace DependencyInjection
 {
